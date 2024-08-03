@@ -1,0 +1,17 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.container{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+#time-hms{
+    font-size: 50px;
+}
+#modal-1{
+    display: none;
+}
+
+
