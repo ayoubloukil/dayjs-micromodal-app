@@ -1,28 +1,47 @@
 dayjs.extend(dayjs_plugin_utc);
 dayjs.extend(dayjs_plugin_timezone);
 
+let timezoneSelect = document.getElementById('timezone');
+let micromodalModal1 = document.getElementById("modal-1");
+let continueButton = document.getElementById('btn-continue');
+let date = document.getElementById("date");
+let time_hms = document.getElementById("time-hms");
 let selectedTimezone;
-
 MicroModal.init();
 
-document.getElementById("timezone").innerHTML = dayjs.tz.guess();
-
-setInterval(() => {
-    document.getElementById("date").innerHTML = dayjs().format('dddd, D MMMM, YYYY');
-    document.getElementById("time-hms").innerHTML = dayjs().format('h:mm:ss');
-  }, 1000)
 
 function showMicromodal (){
-  document.getElementById("modal-1").style.display = "block";
+  micromodalModal1.style.display = "block";
 }
 
 function closeMicromodal (){
-  document.getElementById("modal-1").style.display = "none";
+  micromodalModal1.style.display = "none";
 }
 
-document.getElementById('btn-continue').addEventListener('click', () => {
-  const timezoneSelect = document.getElementById('timezone');
+
+setInterval(() => {
+    date.innerHTML = dayjs().format('dddd, D MMMM, YYYY');
+    time_hms.innerHTML = dayjs().format('h:mm:ss');
+    timezoneSelect.innerHTML = dayjs.tz.guess();
+  }, 1000)
+
+
+
+function updateTime() {
+  if (selectedTimezone) {
+    setInterval(() => {
+      date.innerHTML = dayjs().tz(selectedTimezone).format('dddd, D MMMM, YYYY');
+      time_hms.innerHTML = dayjs().tz().setDefault(selectedTimezone).format('h:mm:ss');
+      timezoneSelect.innerHTML = dayjs.tz(selectedTimezone).format();
+    }, 1000)
+  }
+}
+
+continueButton.addEventListener('click', () => {
   selectedTimezone = timezoneSelect.value;
+  updateTime();  
   closeMicromodal();
-  updateTime();
 });
+
+
+
